@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Borea Paper Works</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+      /* Style for the Hamburger Menu */
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Menu-header container */
+      .menu-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .menu-icon {
+        cursor: pointer;
+      }
+
+      .menu-icon div {
+        width: 35px;
+        height: 5px;
+        background-color: #160f5e;
+        margin: 6px 0;
+      }
+
+      .menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 999;
+        text-align: center;
+        padding-top: 100px;
+      }
+
+      .menu-container {
+        margin: 0 auto;
+        padding: 0px;
+      }
+
+      .menu a {
+        display: block;
+        color: #fff;
+        font-size: 30px;
+        text-decoration: none;
+        margin: 20px 0;
+      }
+
+      .menu.active {
+        display: block;
+      }
+
+      /* Close Button Style */
+      .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .header {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 2rem;
+      }
+
+      .content-wrapper {
+        padding-top: 100px;
+      }
+
+      /* Additional styles */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Menu and Header Container -->
+      <div class="menu-header-container">
+        <!-- Hamburger Menu Icon -->
+        <div class="menu-icon" onclick="toggleMenu()">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <!-- Header with link to home -->
+        <div class="header">
+          <a href="index.html" style="text-decoration: none; color: inherit;">Borea Paper Works</a>
+        </div>
+      </div>
+
+      <!-- Menu Links -->
+      <div class="menu" id="menu">
+        <div class="menu-container">
+          <span class="close-menu" onclick="toggleMenu()">&#10005;</span>
+          <a href="index.html">Home</a>
+          <a href="customizer.html">Design</a>
+          <a href="ready-designs.html">Treat Yourself</a>
+          <a href="gallery.html">Mesmerize</a>
+          <a href="contact.html">Enquire</a>
+        </div>
+      </div>
+
+      <!-- Content Wrapper -->
+      <div class="content-wrapper">
+        <!-- Move Text Block Before Pickers -->
+        <div class="text-block">
+          <p>
+            Unleash your creativity! Pick a shape, choose a color preset or even choose your own colors, and then save your design as a PDF or order a print.
+          </p>
+        </div>
+
+        <!-- Shape Picker Block -->
+        <div class="shape-picker-block">
+          <div class="selector-wrapper">
+            <label for="shapeSelector">Pick a shape: </label>
+            <select
+              class="selector"
+              id="shapeSelector"
+              onchange="updateSVGDisplay(this.value); toggleButtons(); toggleColorPickers();"
+            >
+              <option value="" selected>Please select a shape</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Color Presets Block -->
+        <div class="color-presets-block">
+          <div class="selector-wrapper">
+            <label for="colorPresetSelector">Pick a color preset: </label>
+            <select
+              class="selector"
+              id="colorPresetSelector"
+              onchange="toggleCustomColorPickers(this.value)"
+            >
+              <option value="default" selected>Please select a preset</option>
+              <option value="preset1">Preset 1</option>
+              <option value="preset2">Preset 2</option>
+              <option value="custom">Custom Colors</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Custom Color Pickers Block -->
+        <div class="custom-color-pickers-block hidden">
+          <div class="color-picker-wrapper">
+            <label for="colorPicker1">Pick color #1:</label>
+            <input
+              type="color"
+              id="colorPicker1"
+              onchange="updateSVGColor('editable', this.value)"
+              value="#ff0000"
+            />
+          </div>
+          <div class="color-picker-wrapper">
+            <label for="colorPicker2">Pick color #2:</label>
+            <input
+              type="color"
+              id="colorPicker2"
+              onchange="updateSVGColor('editable2', this.value)"
+              value="#00ff00"
+            />
+          </div>
+          <div class="color-picker-wrapper">
+            <label for="colorPicker3">Pick color #3:</label>
+            <input
+              type="color"
+              id="colorPicker3"
+              onchange="updateSVGColor('editable3', this.value)"
+              value="#0000ff"
+            />
+          </div>
+        </div>
+
+        <!-- SVG Placeholder Block -->
+        <div class="svg-placeholder-block">
+          <div class="svg-display placeholder">
+            <!-- SVG or placeholder content goes here -->
+          </div>
+        </div>
+
+        <!-- Buttons Block -->
+        <div class="buttons-block">
+          <button id="saveButton" onclick="saveAsPDF()">Save as PDF</button>
+          <button
+            id="orderButton"
+            onclick="window.location.href='new order.html'"
+          >
+            Order a Print
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('active');
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Carousel</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900&display=swap" />
+  <style>
+    body {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: transparent;
+      color: black;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .prev {
+      left: 20px;
+    }
+
+    .next {
+      right: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Carousel -->
+  <div class="carousel-container">
+    <div class="carousel-slide" id="carouselSlide">
+      <img src="https://via.placeholder.com/1200x500" alt="Image 1">
+      <img src="https://via.placeholder.com/1200x500" alt="Image 2">
+      <img src="https://via.placeholder.com/1200x500" alt="Image 3">
+      <img src="https://via.placeholder.com/1200x500" alt="Image 4">
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+
+  </div>
+
+  <script>
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.carousel-slide img');
+    const carouselSlide = document.getElementById('carouselSlide');
+    const totalSlides = slides.length;
+    
+    // Clone first and last slide to create an infinite effect
+    const firstClone = slides[0].cloneNode(true);
+    const lastClone = slides[slides.length - 1].cloneNode(true);
+
+    carouselSlide.appendChild(firstClone);
+    carouselSlide.insertBefore(lastClone, slides[0]);
+
+    // Adjust starting position to show the first actual image
+    let offset = -100;
+    carouselSlide.style.transform = `translateX(${offset}%)`;
+
+    // Move to next/previous slide
+    function moveSlide(n) {
+      if (n === 1 && slideIndex >= totalSlides - 1) {
+        slideIndex = 0; // Reset to the first real image
+        offset = -100;
+      } else if (n === -1 && slideIndex <= 0) {
+        slideIndex = totalSlides - 1; // Move to the last real image
+        offset = -(totalSlides * 100);
+      } else {
+        slideIndex += n;
+        offset += n * -100;
+      }
+
+      carouselSlide.style.transition = 'transform 0.5s ease-in-out';
+      carouselSlide.style.transform = `translateX(${offset}%)`;
+
+      // Handle the infinite transition
+      if (slideIndex === totalSlides) {
+        setTimeout(() => {
+          carouselSlide.style.transition = 'none'; // Disable transition effect
+          offset = -100;
+          carouselSlide.style.transform = `translateX(${offset}%)`;
+          slideIndex = 0;
+        }, 500);
+      } else if (slideIndex === -1) {
+        setTimeout(() => {
+          carouselSlide.style.transition = 'none'; // Disable transition effect
+          offset = -(totalSlides * 100);
+          carouselSlide.style.transform = `translateX(${offset}%)`;
+          slideIndex = totalSlides - 1;
+        }, 500);
+      }
+    }
+
+    // Swipe functionality for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carouselSlide.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+
+    carouselSlide.addEventListener('touchmove', (e) => {
+      touchEndX = e.touches[0].clientX;
+    });
+
+    carouselSlide.addEventListener('touchend', () => {
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50; // Minimum swipe distance to trigger a slide change
+      if (touchEndX < touchStartX - swipeThreshold) { // Swipe left
+        moveSlide(1);
+      } else if (touchEndX > touchStartX + swipeThreshold) { // Swipe right
+        moveSlide(-1);
+      }
+    }
+  </script>
+
+</body>
+</html>

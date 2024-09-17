@@ -110,7 +110,7 @@ async function saveAsPDF() {
   const scaleFactor = 3;
   const canvas = await html2canvas(svgElement, {
     scale: scaleFactor,
-    backgroundColor: null,
+    backgroundColor: '#ffffff',
   });
   const imgData = canvas.toDataURL("image/jpeg", 0.8);
   const pdfWidth = canvas.width / scaleFactor;

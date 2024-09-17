@@ -1,112 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Borea Paper Works</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-  </head>
-  <body>
-    <div class="header">Borea Paper Works</div>
-    <div class="container">
-      <div class="content-wrapper">
-        <!-- Shape Picker Block -->
-        <div class="shape-picker-block">
-          <div class="selector-wrapper">
-            <label for="shapeSelector">Pick a shape: </label>
-            <select
-              class="selector"
-              id="shapeSelector"
-              onchange="updateSVGDisplay(this.value); toggleButtons(); toggleColorPickers();"
-            >
-              <option value="" selected>Please select a shape</option>
-              <!-- Additional options will be added dynamically -->
-            </select>
-          </div>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Borea Paper Works - Home</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Style for the Hamburger Menu */
+    .menu-header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Transparent gray background */
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        <!-- Color Presets Block -->
-        <div class="color-presets-block">
-          <div class="selector-wrapper">
-            <label for="colorPresetSelector">Pick a color preset: </label>
-            <select
-              class="selector"
-              id="colorPresetSelector"
-              onchange="toggleCustomColorPickers(this.value)"
-            >
-              <option value="default" selected>Please select a preset</option>
-              <option value="preset1">Preset 1</option>
-              <option value="preset2">Preset 2</option>
-              <option value="custom">Custom Colors</option>
-            </select>
-          </div>
-        </div>
+    .menu-icon {
+      cursor: pointer;
+    }
 
-        <!-- Custom Color Pickers Block -->
-        <div class="custom-color-pickers-block hidden">
-          <div class="color-picker-wrapper">
-            <label for="colorPicker1">Pick color #1:</label>
-            <input
-              type="color"
-              id="colorPicker1"
-              onchange="updateSVGColor('editable', this.value)"
-              value="#ff0000"
-            />
-          </div>
-          <div class="color-picker-wrapper">
-            <label for="colorPicker2">Pick color #2:</label>
-            <input
-              type="color"
-              id="colorPicker2"
-              onchange="updateSVGColor('editable2', this.value)"
-              value="#00ff00"
-            />
-          </div>
-          <div class="color-picker-wrapper">
-            <label for="colorPicker3">Pick color #3:</label>
-            <input
-              type="color"
-              id="colorPicker3"
-              onchange="updateSVGColor('editable3', this.value)"
-              value="#0000ff"
-            />
-          </div>
-        </div>
+    .menu-icon div {
+      width: 35px;
+      height: 5px;
+      background-color: #ffffff; /* White for visibility */
+      margin: 6px 0;
+    }
 
-        <!-- SVG Placeholder Block -->
-        <div class="svg-placeholder-block">
-          <div class="svg-display placeholder">
-            <!-- SVG or placeholder content goes here -->
-          </div>
-        </div>
+    .menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 999;
+      text-align: center;
+      padding-top: 100px;
+    }
 
-        <!-- Buttons Block -->
-        <div class="buttons-block">
-          <button id="saveButton" onclick="saveAsPDF()">Save as PDF</button>
-          <button
-            id="orderButton"
-            onclick="window.location.href='new order.html'"
-          >
-            Order a Print
-          </button>
-        </div>
+    .menu-container {
+      margin: 0 auto;
+      padding: 0px;
+    }
 
-        <!-- Text Block -->
-        <div class="text-block">
-          <p>
-            What is Borea? We bring you the beauty of paper in familiar yet
-            unexpected ways so that you can celebrate the craftsmanship in
-            ordinary things.
-          </p>
-        </div>
-      </div>
+    .menu a {
+      display: block;
+      color: #ffffff; /* White text */
+      font-size: 30px;
+      text-decoration: none;
+      margin: 20px 0;
+    }
+
+    .menu.active {
+      display: block;
+    }
+
+    /* Close Button Style */
+    .close-menu {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('/images/beige2.jpg');
+      background-size: cover;
+      color: black;
+      position: relative;
+      padding-top: 80px; /* Add space to avoid overlap with header */
+    }
+
+    /* Text block with grey transparent background */
+    .text-block {
+      background-color: rgba(0, 0, 0, 0.6); /* Transparent gray background */
+      color: #ffffff; /* White text */
+      padding: 20px;
+      margin-top: 30px; /* Ensure separation from the header */
+      text-align: center;
+    }
+
+    /* Center button horizontally */
+    .cta-button {
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 20px;
+      background-color: rgba(0, 0, 0, 0.6); /* Match with gray background */
+      color: #ffffff; /* White text */
+      border: none;
+      cursor: pointer;
+      display: block;
+      border-radius: 0px;
+    }
+
+    /* Header styling for consistency with customizer */
+    .header {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 2rem;
+      color: #ffffff; /* White text */
+      background-color: transparent; /* Ensure header is transparent */
+    }
+
+    .header a {
+      color: #ffffff; /* White link text */
+    }
+  </style>
+</head>
+<body>
+  <!-- Menu and Header Container -->
+  <div class="menu-header-container">
+    <!-- Hamburger Menu Icon -->
+    <div class="menu-icon" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
-    <script src="script.js"></script>
-  </body>
+
+    <!-- Header with link to home -->
+    <div class="header">
+      <a href="index.html" style="text-decoration: none;">Borea Paper Works</a>
+    </div>
+  </div>
+
+  <!-- Menu Links -->
+  <div class="menu" id="menu">
+    <div class="menu-container">
+      <span class="close-menu" onclick="toggleMenu()">&#10005;</span>
+      <a href="index.html">Home</a>
+      <a href="customizer.html">Design</a>
+      <a href="ready-designs.html">Treat Yourself</a>
+      <a href="gallery.html">Mesmerize</a>
+      <a href="contact.html">Enquire</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div>
+      <div class="text-block">
+        <p>
+          What is Borea? We bring you the beauty of paper in familiar yet
+          unexpected ways so that you can celebrate the craftsmanship in
+          ordinary things.
+        </p>
+      </div>
+      <button class="cta-button" onclick="window.location.href='customizer.html'">Get Started</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    }
+  </script>
+</body>
 </html>
