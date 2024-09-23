@@ -128,7 +128,6 @@ function toggleButtons() {
   const shapeSelector = document.getElementById('shapeSelector');
   const saveButton = document.getElementById('saveButton');
   const orderButton = document.getElementById('orderButton');
-  
   if (shapeSelector.value) {
     saveButton.style.display = 'inline-block';
     orderButton.style.display = 'inline-block';

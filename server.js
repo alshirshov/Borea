@@ -4,17 +4,17 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// Serve static files from the 'public' directory (which now includes the 'images' folder)
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Serve the index.html file from the root directory
 app.get('/', (req, res) => {
-  // Serve index.html from the 'public' directory
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Add the SVG listing endpoint
 app.get('/api/get-svg-list', (req, res) => {
-  const svgDirectory = path.join(__dirname, 'svg'); // No change needed here
+  const svgDirectory = path.join(__dirname, 'svg');
   fs.readdir(svgDirectory, (err, files) => {
     if (err) {
       console.error(err);

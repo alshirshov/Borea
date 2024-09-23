@@ -3,149 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery Carousel</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900&display=swap" />
+  <title>Borea Paper Works - Home</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      font-family: 'Playfair Display', serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff;
-    }
-
-    .carousel-container {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .carousel-slide {
+    /* Style for the Hamburger Menu */
+    .menu-header-container {
       display: flex;
-      transition: transform 0.5s ease-in-out;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Transparent gray background */
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .carousel-slide img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-    }
-
-    .prev, .next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: transparent;
-      color: black;
-      border: none;
-      font-size: 2rem;
+    .menu-icon {
       cursor: pointer;
-      z-index: 100;
     }
 
-    .prev {
-      left: 20px;
+    .menu-icon div {
+      width: 35px;
+      height: 5px;
+      background-color: #ffffff; /* White for visibility */
+      margin: 6px 0;
     }
 
-    .next {
-      right: 20px;
+    .menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 999;
+      text-align: center;
+      padding-top: 100px;
     }
 
+    .menu-container {
+      margin: 0 auto;
+      padding: 0px;
+    }
+
+    .menu a {
+      display: block;
+      color: #ffffff; /* White text */
+      font-size: 30px;
+      text-decoration: none;
+      margin: 20px 0;
+    }
+
+    .menu.active {
+      display: block;
+    }
+    body {
+    font-family: "Playfair display", serif;
+    font-size: 40px;
+    display: block;
+    margin: 0px;
+    background-color: #ffffff;
+    overflow-y: auto;
+  }
+  
+  .header {
+    background-color: #ffffff;
+    width: 100%; /* Ensure the header takes the full width of the page */
+    text-align: center;
+    font-family: "Playfair display", serif;
+    font-size: 2rem; /* Use viewport width units for responsive font size */
+    color: #160f5e;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide any overflow text */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+  }
+  
+  @media (max-width: 600px) {
+    .header {
+      font-size: 2rem; /* Increase font size for smaller screens */
+    }
+  }
+    /* Close Button Style */
+    .close-menu {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      font-size: 2rem;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      position: relative;
+      padding-top: 80px; /* Add space to avoid overlap with header */
+      padding-bottom: 40px;
+    }
+
+    /* Text block with grey transparent background */
+    .text-block {
+      background-color: rgba(0, 0, 0, 0.6); /* Transparent gray background */
+      color: #ffffff; /* White text */
+      margin: 20px;
+      padding: 20px;
+      margin-top: 30px; /* Ensure separation from the header */
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    
+
+    /* Header styling for consistency with customizer */
+    .header {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 2rem;
+      color: #ffffff; /* White text */
+      background-color: transparent; /* Ensure header is transparent */
+    }
+
+    .header a {
+      color: #ffffff; /* White link text */
+    }
   </style>
 </head>
 <body>
-
-  <!-- Carousel -->
-  <div class="carousel-container">
-    <div class="carousel-slide" id="carouselSlide">
-      <img src="https://via.placeholder.com/1200x500" alt="Image 1">
-      <img src="https://via.placeholder.com/1200x500" alt="Image 2">
-      <img src="https://via.placeholder.com/1200x500" alt="Image 3">
-      <img src="https://via.placeholder.com/1200x500" alt="Image 4">
+  <!-- Menu and Header Container -->
+  <div class="menu-header-container">
+    <!-- Hamburger Menu Icon -->
+    <div class="menu-icon" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
 
-    <!-- Navigation Arrows -->
-    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-    <button class="next" onclick="moveSlide(1)">&#10095;</button>
-
+    <!-- Header with link to home -->
+    <div class="header">
+      <a href="/" style="text-decoration: none;">Borea Paper Works</a>
+    </div>
   </div>
 
+  <!-- Menu Links -->
+  <div class="menu" id="menu">
+    <div class="menu-container">
+      <span class="close-menu" onclick="toggleMenu()">&#10005;</span>
+      <a href="/">Home</a>
+      <a href="customizer.html">Design your own</a>
+      <a href="gallery.html">Gallery</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div>
+      <div class="text-block">
+        <p>
+          Some pictures are worth a thousand words. Check out our gallery to see the beautiful designs we've created for you.
+        </p>
+  </div>
+  
+
   <script>
-    let slideIndex = 0;
-    const slides = document.querySelectorAll('.carousel-slide img');
-    const carouselSlide = document.getElementById('carouselSlide');
-    const totalSlides = slides.length;
-    
-    // Clone first and last slide to create an infinite effect
-    const firstClone = slides[0].cloneNode(true);
-    const lastClone = slides[slides.length - 1].cloneNode(true);
-
-    carouselSlide.appendChild(firstClone);
-    carouselSlide.insertBefore(lastClone, slides[0]);
-
-    // Adjust starting position to show the first actual image
-    let offset = -100;
-    carouselSlide.style.transform = `translateX(${offset}%)`;
-
-    // Move to next/previous slide
-    function moveSlide(n) {
-      if (n === 1 && slideIndex >= totalSlides - 1) {
-        slideIndex = 0; // Reset to the first real image
-        offset = -100;
-      } else if (n === -1 && slideIndex <= 0) {
-        slideIndex = totalSlides - 1; // Move to the last real image
-        offset = -(totalSlides * 100);
-      } else {
-        slideIndex += n;
-        offset += n * -100;
-      }
-
-      carouselSlide.style.transition = 'transform 0.5s ease-in-out';
-      carouselSlide.style.transform = `translateX(${offset}%)`;
-
-      // Handle the infinite transition
-      if (slideIndex === totalSlides) {
-        setTimeout(() => {
-          carouselSlide.style.transition = 'none'; // Disable transition effect
-          offset = -100;
-          carouselSlide.style.transform = `translateX(${offset}%)`;
-          slideIndex = 0;
-        }, 500);
-      } else if (slideIndex === -1) {
-        setTimeout(() => {
-          carouselSlide.style.transition = 'none'; // Disable transition effect
-          offset = -(totalSlides * 100);
-          carouselSlide.style.transform = `translateX(${offset}%)`;
-          slideIndex = totalSlides - 1;
-        }, 500);
-      }
-    }
-
-    // Swipe functionality for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    carouselSlide.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-    });
-
-    carouselSlide.addEventListener('touchmove', (e) => {
-      touchEndX = e.touches[0].clientX;
-    });
-
-    carouselSlide.addEventListener('touchend', () => {
-      handleSwipe();
-    });
-
-    function handleSwipe() {
-      const swipeThreshold = 50; // Minimum swipe distance to trigger a slide change
-      if (touchEndX < touchStartX - swipeThreshold) { // Swipe left
-        moveSlide(1);
-      } else if (touchEndX > touchStartX + swipeThreshold) { // Swipe right
-        moveSlide(-1);
-      }
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
     }
   </script>
-
 </body>
 </html>
