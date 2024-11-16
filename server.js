@@ -1,11 +1,22 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const port = 3000;
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Connect to the SQLite database located in the 'public' folder
+const dbPath = path.join(__dirname, 'public', 'color_presets.db');
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('Error connecting to SQLite database:', err.message);
+  } else {
+    console.log('Connected to the SQLite database.');
+  }
+});
 
 // Serve the index.html file from the root directory
 app.get('/', (req, res) => {
@@ -48,6 +59,20 @@ app.get('/api/get-svg/:filename', (req, res) => {
   });
 });
 
+// Endpoint to fetch color presets from the SQLite database
+app.get('/api/get-color-presets', (req, res) => {
+  const query = 'SELECT * FROM color_presets';
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      console.error('Error fetching presets:', err.message);
+      res.status(500).send('Error fetching presets');
+    } else {
+      res.json(rows); // Send the presets as a JSON response
+    }
+  });
+});
+
+// Start the server
 app.listen(port, () => {
-  console.log('Example app listening at http://localhost:' + port);
+  console.log('Server is running at http://localhost:' + port);
 });

@@ -8,7 +8,7 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="images/favicon.png" type="image/png">
   <style>
     /* Style for the Hamburger Menu */
     .menu-header-container {
@@ -65,32 +65,34 @@
     .menu.active {
       display: block;
     }
+
     body {
-    font-family: "Playfair display", serif;
-    font-size: 40px;
-    display: block;
-    margin: 0px;
-    background-color: #ffffff;
-    overflow-y: auto;
-  }
-  
-  .header {
-    background-color: #ffffff;
-    width: 100%; /* Ensure the header takes the full width of the page */
-    text-align: center;
-    font-family: "Playfair display", serif;
-    font-size: 2rem; /* Use viewport width units for responsive font size */
-    color: #160f5e;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide any overflow text */
-    text-overflow: ellipsis; /* Add ellipsis if text overflows */
-  }
-  
-  @media (max-width: 600px) {
-    .header {
-      font-size: 2rem; /* Increase font size for smaller screens */
+      font-family: "Playfair display", serif;
+      font-size: 40px;
+      display: block;
+      margin: 0px;
+      background-color: #e2ede4; /* Same background color as the customizer page */
+      overflow-y: auto;
     }
-  }
+
+    .header {
+      background-color: #ffffff;
+      width: 100%; /* Ensure the header takes the full width of the page */
+      text-align: center;
+      font-family: "Playfair display", serif;
+      font-size: 2rem; /* Use viewport width units for responsive font size */
+      color: #160f5e;
+      white-space: nowrap; /* Prevent text from wrapping */
+      overflow: hidden; /* Hide any overflow text */
+      text-overflow: ellipsis; /* Add ellipsis if text overflows */
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        font-size: 2rem; /* Increase font size for smaller screens */
+      }
+    }
+
     /* Close Button Style */
     .close-menu {
       position: absolute;
@@ -106,7 +108,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: url('/images/beige2.jpg');
+      background-color: #ede7e2; /* Same background color as the customizer page */
       background-size: cover;
       color: black;
       position: relative;
